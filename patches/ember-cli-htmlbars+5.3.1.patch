@@ -1,0 +1,40 @@
+diff --git a/node_modules/ember-cli-htmlbars/lib/ember-addon-main.js b/node_modules/ember-cli-htmlbars/lib/ember-addon-main.js
+index d4b555a..0612ee4 100644
+--- a/node_modules/ember-cli-htmlbars/lib/ember-addon-main.js
++++ b/node_modules/ember-cli-htmlbars/lib/ember-addon-main.js
+@@ -169,13 +169,9 @@ module.exports = {
+ 
+     let isProduction = process.env.EMBER_ENV === 'production';
+ 
+-    // add the babel-plugin-htmlbars-inline-precompile to the list of plugins
+-    // used by `ember-cli-babel` addon
+-    if (!utils.isInlinePrecompileBabelPluginRegistered(babelPlugins)) {
+       let pluginInfo = this.astPlugins();
+       let templateCompilerPath = this.templateCompilerPath();
+ 
+-      if (pluginInfo.canParallelize) {
+         this.logger.debug(
+           `using babel inline precompilation plugin (parallelized) with ${pluginInfo.pluginNames}`
+         );
+@@ -188,21 +184,6 @@ module.exports = {
+         );
+ 
+         babelPlugins.push(htmlbarsInlinePrecompilePlugin);
+-      } else {
+-        this.logger.debug(
+-          `using babel inline precompilation plugin (NON-parallelized) with ${pluginInfo.pluginNames}`
+-        );
+-        this.logger.debug('Prevented by these plugins: ' + pluginInfo.unparallelizableWrappers);
+-
+-        let htmlBarsPlugin = utils.setup(pluginInfo, {
+-          isProduction,
+-          projectConfig: this.projectConfig(),
+-          templateCompilerPath,
+-        });
+-
+-        babelPlugins.push(htmlBarsPlugin);
+-      }
+-    }
+ 
+     if (this._shouldColocateTemplates() && !utils.isColocatedBabelPluginRegistered(babelPlugins)) {
+       babelPlugins.push(require.resolve('./colocated-babel-plugin'));
